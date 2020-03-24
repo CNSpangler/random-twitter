@@ -101,31 +101,19 @@ describe('app routes', () => {
       });
   });
 
-
-//   it('gets all playlist seeds', () => {
-//     return PlaylistSeed.create({
-//       songs: [
-//         { artist: 'test artist', title: 'test title' },
-//         { artist: 'test artist2', title: 'test title2' },
-//         { artist: 'test artist1', title: 'test title1' },
-//       ]
-//     })
-//       .then(() => {
-//         return request(app)
-//           .get('/api/v1/playlist-seeds');
-//       })
-//       .then(res => {
-//         expect(res.body).toEqual([
-//           {
-//             _id: expect.any(String),
-//             songs: [
-//               { _id: expect.any(String), artist: 'test artist', title: 'test title' },
-//               { _id: expect.any(String), artist: 'test artist2', title: 'test title2' },
-//               { _id: expect.any(String), artist: 'test artist1', title: 'test title1' },
-//             ],
-//             __v: 0
-//           }
-//         ]);
-//       });
-//   });
+  it('deletes a tweet by id', async() => {
+    const tweet = await Tweet.create(
+      { handle: 'user', text: 'rectangle' },
+    );
+    return request(app)
+      .delete(`/api/v1/tweets/${tweet._id}`)
+      .then(res => {
+        expect(res.body).toEqual({
+          _id: expect.any(String),
+          handle: 'user', 
+          text: 'rectangle',
+          __v: 0
+        });
+      });
+  });
 });
