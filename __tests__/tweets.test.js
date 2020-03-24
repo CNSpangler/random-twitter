@@ -84,7 +84,23 @@ describe('app routes', () => {
       });
   });
 
-  
+  it('gets a tweet by id', async() => {
+    const tweet = await Tweet.create(
+      { handle: 'user', text: 'rectangle' },
+    );
+
+    return request(app)
+      .get(`/api/v1/tweets/${tweet._id}`)
+      .then(res => {
+        expect(res.body).toEqual({
+          _id: expect.any(String),
+          handle: 'user', 
+          text: 'rectangle',
+          __v: 0
+        });
+      });
+  });
+
 
 //   it('gets all playlist seeds', () => {
 //     return PlaylistSeed.create({
