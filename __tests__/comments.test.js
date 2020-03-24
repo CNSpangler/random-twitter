@@ -25,12 +25,13 @@ describe('app routes', () => {
     return mongoose.connection.close();
   });
 
-  it('creates a comment and posts it to a specific tweet', async() => {
+  it('creates a comment', async() => {
     const tweet = await Tweet.create(
       { handle: 'user', text: 'I\'m going to type every word I know.' },
     );
 
     return request(app)
+      .post('/api/v1/comments')
       .send({
         tweetId: tweet.id,
         handle: 'user2',
