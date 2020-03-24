@@ -77,12 +77,14 @@ describe('app routes', () => {
           expect(res.body).toContainEqual({
             _id: tweet._id.toString(),
             handle: tweet.handle,
-            text: tweet.text
+            text: tweet.text,
+            __v: 0
           });
         });
       });
   });
 
+  
 
 //   it('gets all playlist seeds', () => {
 //     return PlaylistSeed.create({
