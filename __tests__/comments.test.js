@@ -59,7 +59,11 @@ describe('app routes', () => {
       .get(`/api/v1/comments/${comment._id}`)
       .then(res => {
         expect(res.body).toEqual({
-          _id: expect.any(String), handle: 'user2', text: 'Rectangle.', __v: 0, tweetId: {
+          _id: expect.any(String), 
+          handle: 'user2', 
+          text: 'Rectangle.', 
+          __v: 0, 
+          tweetId: {
             _id: expect.any(String),
             handle: 'user', 
             text: 'I\'m going to type every word I know.',
@@ -71,6 +75,50 @@ describe('app routes', () => {
   });
 
   // * `PATCH /api/v1/comments/:id` update a comment
+  it('updates a comment by id', async() => {
+    const tweet = await Tweet.create(
+      { handle: 'user', text: 'I\'m going to type every word I know.' },
+    );
+
+    const comment = await Comment.create(
+      { tweetId: tweet.id, handle: 'user2', text: 'Rectangle.' }
+    );
+
+    return request(app)
+      .patch('/api/v1/comments/:id')
+      .send({ text: 'America.' })
+      .then(res => {
+        expect(res.body).toEqual({
+          _id: expect.any(String), 
+          handle: 'user2', 
+          text: 'America.',
+          __v: 0, 
+          tweetId: tweet.id
+        });
+      });
+  });
+  
+
+
+
+
+  // it('updates a tweet by id', async() => {
+  //   const tweet = await Tweet.create(
+  //     { handle: 'user', text: 'rectangle' },
+  //   );
+
+  //   return request(app)
+  //     .patch(`/api/v1/tweets/${tweet._id}`)
+  //     .send({ text: 'America' })
+  //     .then(res => {
+  //       expect(res.body).toEqual({
+  //         _id: expect.any(String),
+  //         handle: 'user',
+  //         text: 'America',
+  //         __v: 0
+  //       });
+  //     });
+  // });
 
 
 
@@ -129,23 +177,6 @@ describe('app routes', () => {
   //     });
   // });
 
-  // it('updates a tweet by id', async() => {
-  //   const tweet = await Tweet.create(
-  //     { handle: 'user', text: 'rectangle' },
-  //   );
-
-  //   return request(app)
-  //     .patch(`/api/v1/tweets/${tweet._id}`)
-  //     .send({ text: 'America' })
-  //     .then(res => {
-  //       expect(res.body).toEqual({
-  //         _id: expect.any(String),
-  //         handle: 'user',
-  //         text: 'America',
-  //         __v: 0
-  //       });
-  //     });
-  // });
 
   // it('deletes a tweet by id', async() => {
   //   const tweet = await Tweet.create(
