@@ -104,16 +104,16 @@ describe('app routes', () => {
       { tweetId: tweet.id, handle: 'user2', text: 'Rectangle.' }
     );
 
-    reture request(app)
+    return request(app)
       .delete(`/api/v1/comments/${comment._id}`)
       .then(res => {
         expect(res.body).toEqual({
-            tweetId: tweet.id,
-            _id: expect.any(String), 
-            handle: 'user2', 
-            text: 'Rectangle.',
-            __v: 0
-        })
-      })
-  })
+          tweetId: tweet.id,
+          _id: expect.any(String), 
+          handle: 'user2', 
+          text: 'Rectangle.',
+          __v: 0
+        });
+      });
+  });
 });
