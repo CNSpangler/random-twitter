@@ -1,4 +1,3 @@
-// * `POST /api/v1/comments` create a comment
 // * `GET /api/v1/comments/:id` get a comment by id and populate tweet
 // * `PATCH /api/v1/comments/:id` update a comment
 // * `DELETE /api/v1/comments/:id` delete a comment
@@ -48,26 +47,34 @@ describe('app routes', () => {
       });
   });
 
+  // * `GET /api/v1/comments/:id` get a comment by id and populate tweet
+  it('gets a comment by id and populates the associated tweet', async() => {
+    const tweet = await Tweet.create(
+      { handle: 'user', text: 'I\'m going to type every word I know.' },
+    );
 
-  // create a tweet
-  //
+    const comment = await Comment.create(
+      { tweetId: tweet.id, handle: 'user2', text: 'Rectangle.' }
+    );
 
-  // it('creates a new tweet with user text', () => {
-  //   return request(app)
-  //     .post('/api/v1/tweets')
-  //     .send({
-  //       handle: 'someone',
-  //       text: 'People who buy things are suckers.'
-  //     })
-  //     .then(res => {
-  //       expect(res.body).toEqual({
-  //         _id: expect.any(String),
-  //         handle: 'someone',
-  //         text: 'People who buy things are suckers.',
-  //         __v: 0
-  //       });
-  //     });
-  // });
+    comment.populate(tweet);
+
+    return request(app)
+      .get('/api/v1/comments/:id')
+      .then(res => {
+        expect(res.body).toEqual({
+          tweet: {
+            _id: expect.any(String),
+            tweetId: tweet.id,
+            handle: 'user2',
+            text: 'rectangle',
+            __v: 0
+          },
+          comment: { tweetId: tweet.id, handle: 'user2', text: 'Rectangle.' }
+        });
+      });
+  });
+
 
   // it('creates a new tweet with random quote from API', () => {
   //   return request(app)
