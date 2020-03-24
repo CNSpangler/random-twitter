@@ -101,6 +101,24 @@ describe('app routes', () => {
       });
   });
 
+  it('updates a tweet by id', async() => {
+    const tweet = await Tweet.create(
+      { handle: 'user', text: 'rectangle' },
+    );
+
+    return request(app)
+      .patch(`/api/v1/tweets/${tweet._id}`)
+      .send({ text: 'America' })
+      .then(res => {
+        expect(res.body).toEqual({
+          _id: expect.any(String),
+          handle: 'user',
+          text: 'America',
+          __v: 0
+        });
+      });
+  });
+
   it('deletes a tweet by id', async() => {
     const tweet = await Tweet.create(
       { handle: 'user', text: 'rectangle' },
